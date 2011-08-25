@@ -1,11 +1,12 @@
 class Site < ActiveRecord::Base
   belongs_to :user
   validates_presence_of :url, :user
-  before_save :initialize_hash
+  validates_format_of :url, :with => URI::regexp
+  before_save :initialize_hash!
 
-  def refresh_hash
+  def refresh_hash!
     if !self.url.nil?
-      new_hash  = Net::HTTP.get_response(URI.parse(self.url)).body.sum
+      new_hash  = fetch_hash(self.url)
       if self.last_hash != new_hash
         self.last_hash = new_hash
         self.save
@@ -17,9 +18,13 @@ class Site < ActiveRecord::Base
 
   private
 
-  def initialize_hash
+  def initialize_hash!
     if self.url_changed?
-      self.refresh_hash
+      self.refresh_hash!
     end
+  end
+
+  def fetch_hash(url)
+    Net::HTTP.get_response(URI.parse(url)).body.sum
   end
 end
