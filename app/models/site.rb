@@ -1,6 +1,7 @@
 class Site < ActiveRecord::Base
   belongs_to :user
   validates_presence_of :url, :user
+  before_save :initialize_hash
 
   def refresh_hash
     if !self.url.nil?
@@ -12,5 +13,13 @@ class Site < ActiveRecord::Base
       end
     end
     return false
+  end
+
+  private
+
+  def initialize_hash
+    if self.url_changed?
+      self.refresh_hash
+    end
   end
 end

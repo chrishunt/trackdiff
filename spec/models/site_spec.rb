@@ -10,6 +10,16 @@ describe Site do
     Site.last.url.should == "http://google.com"
   end
 
+  it 'has hash after initialization' do
+    @site.last_hash.should_not == nil
+  end
+
+  it 'refreshes hash when url changes' do
+    old_hash = @site.last_hash
+    @site.update_attributes(:url => "http://yahoo.com")
+    @site.last_hash.should_not == old_hash
+  end
+
   it 'belongs to a user' do
     Site.last.user.email.should == "bob@email.com"
   end
