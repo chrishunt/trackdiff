@@ -1,5 +1,6 @@
 Diffme::Application.routes.draw do
   resources :sites
+  resources :users
   root :to => "sites#index"
 
   # The priority is based upon order of creation:

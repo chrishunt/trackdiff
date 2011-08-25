@@ -11,11 +11,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110823214256) do
+ActiveRecord::Schema.define(:version => 20110825151927) do
 
   create_table "sites", :force => true do |t|
     t.string   "url"
-    t.string   "hash"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
+    t.integer  "last_hash",  :limit => 255
+  end
+
+  create_table "users", :force => true do |t|
+    t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
