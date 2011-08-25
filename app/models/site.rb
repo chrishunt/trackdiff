@@ -10,6 +10,7 @@ class Site < ActiveRecord::Base
       if self.last_hash != new_hash
         self.last_hash = new_hash
         self.save
+        send_notification_email
         return true
       end
     end
@@ -26,5 +27,9 @@ class Site < ActiveRecord::Base
 
   def fetch_hash(url)
     Net::HTTP.get_response(URI.parse(url)).body.sum
+  end
+
+  def send_notification_email
+    Notifier.site_updated(self).deliver
   end
 end
