@@ -1,0 +1,7 @@
+<h1>Track New Site</h1>
+
+<%= form_for @site do |f| %>
+  <%= f.label :url, "URL" %>
+  <%= f.text_field :url %>
+  <%= f.submit "Track Diffs" %>
+<% end %>
