@@ -1,8 +1,10 @@
 Trackdiff::Application.routes.draw do
-  resources :sites
-  resources :users
+  resources :users do
+    resources :sites
+  end
+
   root :to => "sites#index"
-  
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

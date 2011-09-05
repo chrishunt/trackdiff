@@ -1,6 +1,17 @@
 <h1>Track New Site</h1>
 
-<%= form_for @site do |f| %>
+<%= form_for [@user,@site] do |f| %>
+  <% if @site.errors.any? %>
+    <ul>
+      <% @site.errors.each do |attribute, error| %>
+        <li>
+        <%= attribute %> <%= error %>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <%= f.hidden_field :user_id, {:value => @user.id} %>
   <%= f.label :url, "URL" %>
   <%= f.text_field :url %>
   <%= f.submit "Track Diffs" %>
