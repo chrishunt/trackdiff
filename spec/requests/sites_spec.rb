@@ -51,5 +51,15 @@ describe "Sites" do
       click_button("Track Diffs")
       page.should have_content("url is invalid")
     end
+
+    it 'shows error message when url is already taken' do
+      visit new_user_site_path @user
+      fill_in("URL", :with => "http://google.com")
+      click_button("Track Diffs")
+      visit new_user_site_path @user
+      fill_in("URL", :with => "http://google.com")
+      click_button("Track Diffs")
+      page.should have_content("url has already been taken")
+    end
   end
 end

@@ -14,6 +14,13 @@ describe User do
     user.save.should == false
   end
 
+  it 'validates uniqueness of email' do
+    user = User.create(:email => "user@email.com")
+    user.save.should == true
+    user = User.create(:email => "user@email.com")
+    user.save.should == false
+  end
+
   it 'has many sites' do
     Site.create!(:url => "http://google.com", :user => @user)
     Site.create!(:url => "http://yahoo.com", :user => @user)

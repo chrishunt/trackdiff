@@ -1,6 +1,7 @@
 class Site < ActiveRecord::Base
   belongs_to :user
   validates_presence_of :url, :user
+  validates_uniqueness_of :url, :scope => :user_id
   validates_format_of :url, :with => URI::regexp
   before_save :initialize_hash!
 

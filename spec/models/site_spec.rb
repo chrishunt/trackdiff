@@ -20,6 +20,18 @@ describe Site do
     @site.save.should == false
   end
 
+  it 'validates uniqueness of url for each user' do
+    # Don't allow same user for same user
+    user = User.create!(:email => "user@email.com")
+    Site.create!(:url => "http://yahoo.com", :user => user)
+    site = Site.create(:url => "http://yahoo.com", :user => user)
+    site.save.should == false
+    # Allow same URL for different user
+    user = User.create!(:email => "user2@email.com")
+    site = Site.create(:url => "http://yahoo.com", :user => user)
+    site.save.should == true
+  end
+
   it 'has hash after initialization' do
     @site.last_hash.should_not == nil
   end
