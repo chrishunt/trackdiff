@@ -18,3 +18,10 @@ group :development, :test do
   gem 'guard-rspec'
   gem 'capybara'
 end
+
+group :console do
+  gem 'hirb'
+  gem 'wirb'
+  gem 'interactive_editor'
+  gem 'fancy_irb'
+end
