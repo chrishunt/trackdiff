@@ -52,7 +52,6 @@ describe Site do
     Site.last.user.email.should == "bob@email.com"
   end
 
-
   it 'validates presence of user' do
     site = Site.create(:url => "http://google.com")
     site.save.should == false
