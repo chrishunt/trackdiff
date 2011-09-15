@@ -54,6 +54,10 @@ GEM
     erubis (2.7.0)
     execjs (1.2.4)
       multi_json (~> 1.0)
+    factory_girl (2.1.0)
+    factory_girl_rails (1.2.0)
+      factory_girl (~> 2.1.0)
+      railties (>= 3.0.0)
     fancy_irb (0.7.0)
       paint (>= 0.8.1)
       unicode-display_width (>= 0.1.1)
@@ -160,6 +164,7 @@ PLATFORMS
 DEPENDENCIES
   capybara
   coffee-rails (~> 3.1.0)
+  factory_girl_rails
   fancy_irb
   guard-rspec
   hirb

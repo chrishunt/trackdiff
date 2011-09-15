@@ -1,59 +1,62 @@
 require 'spec_helper'
 
 describe Site do
-  before :each do
-    @user = User.create!(:email => "bob@email.com")
-    @site = Site.create!(:url => "http://google.com", :user => @user)
-  end
-
   it 'has a url' do
+    Factory(:site)
     Site.last.url.should == "http://google.com"
   end
 
   it 'validates presence of url' do
-    site = Site.create(:user => @user)
+    site = Factory.build(:site, :url => nil)
     site.save.should == false
   end
 
   it 'validates correctness of url' do
-    @site.url = "invalid"
-    @site.save.should == false
+    site = Factory.build(:site, :url => "invalid")
+    site.save.should == false
   end
 
-  it 'validates uniqueness of url for each user' do
-    # Don't allow same user for same user
-    user = User.create!(:email => "user@email.com")
-    Site.create!(:url => "http://yahoo.com", :user => user)
-    site = Site.create(:url => "http://yahoo.com", :user => user)
-    site.save.should == false
-    # Allow same URL for different user
-    user = User.create!(:email => "user2@email.com")
-    site = Site.create(:url => "http://yahoo.com", :user => user)
+  it 'does not allow duplicate url for a user' do
+    user = Factory(:user)
+    site = Factory.build(:site, :url => "http://google.com", :user => user)
     site.save.should == true
+    site = Factory.build(:site, :url => "http://google.com", :user => user)
+    site.save.should == false
+  end
+
+  it 'allows duplicate urls for different users' do
+    user_1 = Factory(:user)
+    site_1 = Factory(:site, :url => "http://google.com", :user => user_1)
+    user_2 = Factory(:user)
+    site_2 = Factory(:site, :url => "http://google.com", :user => user_2)
+    site_1.save.should == true
+    site_2.save.should == true
   end
 
   it 'has hash after initialization' do
-    @site.last_hash.should_not == nil
+    Factory(:site).last_hash.should_not == nil
   end
 
   it 'refreshes hash when url changes' do
-    old_hash = @site.last_hash
-    @site.update_attributes(:url => "http://yahoo.com")
-    @site.last_hash.should_not == old_hash
+    site = Factory(:site, :url => "http://google.com")
+    hash = site.last_hash
+    site.update_attributes(:url => "http://yahoo.com")
+    site.last_hash.should_not == hash
   end
 
   it 'does not refresh hash when url changes to invalid' do
-    old_hash = @site.last_hash
-    @site.update_attributes(:url => "invalid")
-    @site.last_hash.should == old_hash
+    site = Factory(:site, :url => "http://google.com")
+    hash = site.last_hash
+    site.update_attributes(:url => "invalid")
+    site.last_hash.should == hash
   end
 
   it 'belongs to a user' do
-    Site.last.user.email.should == "bob@email.com"
+    Factory(:site).user.should_not == nil
   end
 
   it 'validates presence of user' do
-    site = Site.create(:url => "http://google.com")
+    site = Factory.build(:site, :user => nil)
     site.save.should == false
   end
 end
