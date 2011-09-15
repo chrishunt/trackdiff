@@ -1,14 +1,14 @@
 require 'spec_helper'
 
 describe "Sites" do
-  before :each do
-    @user = User.create!(:email => "bob@email.com")
+  before(:each) do
+    @user = Factory(:user)
   end
 
   describe "GET /users/id/sites" do
     it 'shows all site urls for current user' do
-      Site.create!(:url => "http://google.com", :user => @user)
-      visit user_sites_path @user
+      Factory(:site, :url => "http://google.com", :user => @user)
+      visit user_sites_path(@user)
       page.should have_content("http://google.com")
     end
   end
@@ -34,7 +34,6 @@ describe "Sites" do
       visit new_user_site_path @user
       fill_in("URL", :with => "http://google.com")
       click_button("Track Diffs")
-      Site.all.count.should == 1
       page.should have_content("http://google.com")
     end
 
@@ -53,12 +52,11 @@ describe "Sites" do
     end
 
     it 'shows error message when url is already taken' do
-      visit new_user_site_path @user
-      fill_in("URL", :with => "http://google.com")
-      click_button("Track Diffs")
-      visit new_user_site_path @user
-      fill_in("URL", :with => "http://google.com")
-      click_button("Track Diffs")
+      2.times do
+        visit new_user_site_path @user
+        fill_in("URL", :with => 'http://google.com')
+        click_button("Track Diffs")
+      end
       page.should have_content("url has already been taken")
     end
   end
