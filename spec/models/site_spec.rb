@@ -6,6 +6,15 @@ describe Site do
     Site.last.url.should == "http://google.com"
   end
 
+  it 'validates presence of user' do
+    site = Factory.build(:site, :user => nil)
+    site.save.should == false
+  end
+
+  it 'belongs to a user' do
+    Factory(:site).user.should_not == nil
+  end
+
   it 'validates presence of url' do
     site = Factory.build(:site, :url => nil)
     site.save.should == false
@@ -49,14 +58,5 @@ describe Site do
     hash = site.last_hash
     site.update_attributes(:url => "invalid")
     site.last_hash.should == hash
-  end
-
-  it 'belongs to a user' do
-    Factory(:site).user.should_not == nil
-  end
-
-  it 'validates presence of user' do
-    site = Factory.build(:site, :user => nil)
-    site.save.should == false
   end
 end
