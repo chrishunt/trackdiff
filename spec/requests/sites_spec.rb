@@ -6,10 +6,22 @@ describe "Sites" do
   end
 
   describe "GET /users/id/sites" do
-    it 'shows all site urls for current user' do
-      Factory(:site, :url => "http://google.com", :user => @user)
-      visit user_sites_path(@user)
-      page.should have_content("http://google.com")
+    context 'when logged out' do
+      it 'shows login page' do
+        pending
+      end
+    end
+    context 'when logged in' do
+      context 'as correct user' do
+        it 'shows all site urls' do
+          Factory(:site, :url => "http://google.com", :user => @user)
+          visit user_sites_path(@user)
+          page.should have_content("http://google.com")
+        end
+      end
+      context 'as incorrect user' do
+        pending
+      end
     end
   end
 

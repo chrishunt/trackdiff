@@ -3,7 +3,12 @@ Trackdiff::Application.routes.draw do
     resources :sites
   end
 
-  root :to => "sites#index"
+  resources :sessions
+
+  match 'signup' => 'users#new'
+  match 'login'  => 'sessions#new'
+
+  root :to => "sessions#new"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

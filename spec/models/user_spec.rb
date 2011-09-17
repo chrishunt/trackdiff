@@ -11,6 +11,13 @@ describe User do
     user.save.should == false
   end
 
+  it 'validates uniqueness of email' do
+    user_1 = Factory.build(:user, :email => "user@email.com")
+    user_2 = Factory.build(:user, :email => "user@email.com")
+    user_1.save.should == true
+    user_2.save.should == false
+  end
+
   it 'validates presence of password' do
     user = Factory.build(:user, :password => nil)
     user.save.should == false
@@ -19,13 +26,6 @@ describe User do
   it 'requires valid password confirmation' do
     user = Factory.build(:user, :password => 'secret', :password_confirmation => 'public')
     user.save.should == false
-  end
-
-  it 'validates uniqueness of email' do
-    user_1 = Factory.build(:user, :email => "user@email.com")
-    user_2 = Factory.build(:user, :email => "user@email.com")
-    user_1.save.should == true
-    user_2.save.should == false
   end
 
   it 'has many sites' do

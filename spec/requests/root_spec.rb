@@ -2,10 +2,11 @@ require 'spec_helper.rb'
 
 describe 'Root' do
   describe 'GET /' do
-    it 'shows all sites' do
-      Factory(:site, :url => "http://google.com")
+    it 'shows login page' do
       visit root_url
-      page.should have_content("http://google.com")
+      page.should have_content("Login")
+      page.should have_content("Email")
+      page.should have_content("Password")
     end
   end
 end
