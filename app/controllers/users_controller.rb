@@ -10,6 +10,7 @@ class UsersController < ApplicationController
   def create
     @user = User.create(params[:user])
     if @user.save
+      session[:user_id] = @user.id
       redirect_to new_user_site_path(@user), :notice => 'Signed up!'
     else
       render 'new'
