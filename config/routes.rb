@@ -7,6 +7,7 @@ Trackdiff::Application.routes.draw do
 
   match 'signup' => 'users#new'
   match 'login'  => 'sessions#new'
+  match 'logout' => 'sessions#destroy'
 
   root :to => "sessions#new"
 
