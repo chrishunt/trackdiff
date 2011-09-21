@@ -1,0 +1,12 @@
+%h1= "Track New Site"
+
+= form_for [@user,@site] do |f|
+  - if @site.errors.any?
+    %ul
+      - @site.errors.each do |attribute, error|
+        %li= "#{attribute} #{error}"
+
+  = f.hidden_field :user_id, {:value => @user.id}
+  = f.label :url, "URL"
+  = f.text_field :url
+  = f.submit "Track Diffs"

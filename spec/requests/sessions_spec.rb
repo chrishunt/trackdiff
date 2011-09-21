@@ -23,9 +23,9 @@ describe 'Sessions' do
       page.should have_content("Logged in")
     end
 
-    it 'redirects to new site path after login' do
+    it 'redirects to site list after login' do
       click_button 'Login'
-      current_path.should == new_user_site_path(@user)
+      current_path.should == user_sites_path(@user)
     end
 
     it 'shows error message if email invalid' do

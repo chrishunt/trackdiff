@@ -26,10 +26,19 @@ describe "Sites" do
       end
 
       context 'as correct user' do
-        it 'shows all site urls' do
+        before(:each) do
           login(@user)
           visit user_sites_path(@user)
+        end
+
+        it 'shows all site urls' do
           page.should have_content("http://google.com")
+        end
+
+        it 'shows link to create new site' do
+          page.should have_content("Track New Site")
+          click_link "Track New Site"
+          current_path.should == new_user_site_path(@user)
         end
       end
 

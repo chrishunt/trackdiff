@@ -1,0 +1,6 @@
+= link_to 'Track New Site', new_user_site_path(@user)
+
+%ul
+  - @sites.each do |s|
+    %li= s.url
+
