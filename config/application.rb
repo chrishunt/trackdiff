@@ -2,7 +2,8 @@ require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
 require 'uri'
-require 'net/http'
+#require 'net/http'
+require './spec/mocks/http_mock'
 
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
